@@ -3,24 +3,44 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using InterestPoints.DataAccess;
+using InterestPoints.Models;
+using InterestPoints.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace InterestPoints.Controllers
 {
-    [Route("api/interest-point")]
+    [Route("api/interest-points")]
     public class InterestPointsController : Controller
     {
-        public readonly InterestPointRepository _interestPointRepository;
+        public readonly InterestPointsService _interestPointsService;
 
-        public InterestPointsController(InterestPointRepository interestPointRepository)
+        public InterestPointsController(InterestPointsService interestPointsService)
         {
-            _interestPointRepository = interestPointRepository;
+            _interestPointsService = interestPointsService;
         }
 
         [HttpGet]
-        public JsonResult Get()
+        public IActionResult GetInterestPoints(TravelRoute route)
         {
-            return Json(_interestPointRepository.GetAll());
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(Json(new { result = "missing or invalid parameters" }));
+            }
+
+            return Ok(Json(_interestPointsService.GetInterestPoints(route)));
         }
+
+        [HttpGet]
+        [Route("nearest")]
+        public IActionResult GetNearestInterestPoint(GeographicPoint point)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(Json(new { result = "missing or invalid parameters" }));
+            }
+
+            return Ok(Json(_interestPointsService.GetNearestInterestPoint(point)));
+        }
+
     }
 }

@@ -9,10 +9,10 @@ namespace InterestPoints.DataAccess
 {
     public class RepositoryBase<T>
     {
-        public IConfiguration _configuration;
-        public readonly MongoClient _client;
-        public readonly IMongoDatabase _db;
-        public IMongoCollection<T> _collection;
+        private IConfiguration _configuration;
+        private readonly MongoClient _client;
+        protected readonly IMongoDatabase _db;
+        protected IMongoCollection<T> _collection;
 
         public RepositoryBase(IConfiguration configuration)
         {

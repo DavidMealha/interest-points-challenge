@@ -18,12 +18,12 @@
     },
     "InterestPoints": {
       "commandName": "Project",
-      "launchBrowser": true,
-      "launchUrl": "api/values",
+      "launchBrowser": false,
+      //"launchUrl": "api/values",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "applicationUrl": "http://localhost:10881/"
+      "applicationUrl": "http://localhost:10882/"
     }
   }
 }
