@@ -68,20 +68,41 @@ namespace InterestPoints.Services
 
         private InterestPoint FindNearestPoint(List<InterestPoint> interestPoints, GeographicPoint currentLocation)
         {
-            int smallestIndex;
+            int smallestIndex = 0;
             float smallestDistance = float.MaxValue;
-
-            foreach (InterestPoint point in interestPoints)
+            int currentDistance;
+            
+            foreach (var item in interestPoints.Select((point, i) => new { i, point }))
             {
-
+                currentDistance = CalculateDistance(item.point, currentLocation);
+                if (currentDistance < smallestDistance)
+                {
+                    smallestIndex = item.i;
+                    smallestDistance = currentDistance;
+                }
             }
 
-            return new InterestPoint();
+            return interestPoints[smallestIndex];
         }
 
-        private float CalculateDistance(InterestPoint point, GeographicPoint currentLocation)
+        // more info: https://www.movable-type.co.uk/scripts/latlong.html
+        private int CalculateDistance(InterestPoint point, GeographicPoint currentLocation)
         {
-            return 0;
+            int earthRadiusMeters = (int) 6371e3;
+
+            float firstLatitudeRadians = (float)(currentLocation.latitude * (Math.PI / 180));
+            float secondLatitudeRadians = (float)(point.latitude * (Math.PI / 180));
+
+            float deltaLatitude = (float)((secondLatitudeRadians - firstLatitudeRadians) * (Math.PI / 180));
+            float deltaLongitude = (float)((point.longitude - currentLocation.longitude) * (Math.PI / 180));
+
+            float haversineA = (float)(Math.Sin(deltaLatitude / 2) * Math.Sin(deltaLatitude / 2) +
+                Math.Cos(firstLatitudeRadians) * Math.Cos(secondLatitudeRadians) *
+                Math.Sin(deltaLongitude / 2) * Math.Sin(deltaLongitude / 2));
+
+            float haversineC = (float)(2 * Math.Atan2(Math.Sqrt(haversineA), Math.Sqrt(1 - haversineA)));
+
+            return (int)(earthRadiusMeters * haversineC);
         }
     }
 }
