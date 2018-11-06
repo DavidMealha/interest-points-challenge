@@ -40,11 +40,48 @@ namespace InterestPoints.Services
 
         public InterestPoint GetNearestInterestPoint(GeographicPoint point)
         {
-            //find nearest point in a 5km radius
-            //if none find in a 10km radius
-            //if none find in a 25km radius
-            //if none find in a 50km radius
-            return new InterestPoint() { };
+            BoundingBox boundingBox = GetPointBoundingBox(point);
+            return FindNearestPoint(_interestPointRepository.GetPointsInsideBoundingBox(boundingBox), point);
+        }
+
+        private BoundingBox GetPointBoundingBox(GeographicPoint point)
+        {
+            float kilometersPerDegree = 111; //could be constants
+            float oneKilometerToDegrees = 1 / kilometersPerDegree;
+            float fiveKilometersToDegress = 5 * oneKilometerToDegrees;
+
+            float smallerLatitude = (float)point.latitude - fiveKilometersToDegress;
+            float largerLatitude = (float)point.latitude + fiveKilometersToDegress;
+
+            float latitudeToRadians = (float)((Math.PI / 180) * point.latitude);
+
+            float smallerLongitude = (float)(point.longitude - (fiveKilometersToDegress / Math.Cos(latitudeToRadians)));
+            float largerLongitude = (float)(point.longitude + (fiveKilometersToDegress / Math.Cos(latitudeToRadians)));
+
+            return new BoundingBox() {
+                smallerLatitude = smallerLatitude,
+                smallerLongitude = smallerLongitude,
+                largerLatitude = largerLatitude,
+                largerLongitude = largerLongitude
+            };
+        }
+
+        private InterestPoint FindNearestPoint(List<InterestPoint> interestPoints, GeographicPoint currentLocation)
+        {
+            int smallestIndex;
+            float smallestDistance = float.MaxValue;
+
+            foreach (InterestPoint point in interestPoints)
+            {
+
+            }
+
+            return new InterestPoint();
+        }
+
+        private float CalculateDistance(InterestPoint point, GeographicPoint currentLocation)
+        {
+            return 0;
         }
     }
 }

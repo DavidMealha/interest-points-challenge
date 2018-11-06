@@ -26,10 +26,15 @@ namespace InterestPoints.DataAccess
             return GetInterestPointsWithDirection(route, routeDirection);
         }
 
-        //public InterestPoint GetNearestInterestPoint(GeographicPoint point)
-        //{
-        //    return _collection
-        //}
+        public List<InterestPoint> GetPointsInsideBoundingBox(BoundingBox boundingBox)
+        {
+            return _collection.Find(point =>
+                point.latitude > boundingBox.smallerLatitude &&
+                point.latitude < boundingBox.largerLatitude &&
+                point.longitude > boundingBox.smallerLongitude &&
+                point.longitude < boundingBox.largerLongitude
+            ).ToList();
+        }
 
         private List<InterestPoint> GetInterestPointsWithDirection(TravelRoute route, string routeDirection)
         {

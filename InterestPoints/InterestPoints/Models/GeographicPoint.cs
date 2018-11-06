@@ -10,10 +10,10 @@ namespace InterestPoints.Models
     {
         [Required]
         [Range(-90, 90)]
-        public double? latitude { get; set; }
+        public float? latitude { get; set; }
 
         [Required]
         [Range(-180, 180)]
-        public double? longitude { get; set; }
+        public float? longitude { get; set; }
     }
 }

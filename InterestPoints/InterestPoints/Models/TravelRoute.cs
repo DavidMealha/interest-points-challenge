@@ -10,18 +10,18 @@ namespace InterestPoints.Models
     {
         [Required]
         [Range(-90, 90)]
-        public double? start_latitude { get; set; }
+        public float? start_latitude { get; set; }
 
         [Required]
         [Range(-180, 180)]
-        public double? start_longitude { get; set; }
+        public float? start_longitude { get; set; }
 
         [Required]
         [Range(-90, 90)]
-        public double? end_latitude { get; set; }
+        public float? end_latitude { get; set; }
 
         [Required]
         [Range(-180, 180)]
-        public double? end_longitude { get; set; }
+        public float? end_longitude { get; set; }
     }
 }
