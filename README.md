@@ -18,3 +18,9 @@
 ```shell
   curl http://localhost:10882/api/interest-points/nearest?latitude=38.5333312&longitude=-8.8833298
 ```
+
+## Setup
+* Criar indice composto
+```shell
+  db.getCollection("interest-points").createIndex({ "latitude": 1, "longitude": 1})
+```
