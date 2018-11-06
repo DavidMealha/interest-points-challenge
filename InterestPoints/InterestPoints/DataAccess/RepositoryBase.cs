@@ -18,7 +18,7 @@ namespace InterestPoints.DataAccess
         {
             _configuration = configuration;
             _client = new MongoClient(_configuration["DATABASE_CONN"]);
-            _db = _client.GetDatabase("indiecampersdb");
+            _db = _client.GetDatabase(_configuration["DATABASE_NAME"]);
         }
     }
 }
